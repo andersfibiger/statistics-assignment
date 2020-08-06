@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Statistics.Models
 {
-    public class Statistic
+    public class Experience
     {
-        public int NumberOfLiveExperiences { get; set; }
-        public int ChangeInLiveExperiences { get; set; }
+        // no need for properties since we only care about the number of experiences
     }
 }
