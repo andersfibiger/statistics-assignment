@@ -22,11 +22,12 @@ namespace Statistics.Controllers
         public async Task<Statistic> GetStatistics([Required] DateTime date)
         {
             var numberOfLiveExperiences = await _statisticLogic.GetNumberOfLiveExperience();
+            var change = await _statisticLogic.GetChangeInExperiences(date);
 
             var statistic = new Statistic
             {
                 NumberOfLiveExperiences = numberOfLiveExperiences,
-                ChangeInLiveExperiences = 1 // TODO
+                ChangeInLiveExperiences = change
             };
 
             return statistic;
