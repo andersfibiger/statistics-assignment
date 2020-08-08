@@ -41,6 +41,7 @@ namespace Statistics.DAL
             }
             catch (Exception)
             {
+                // since no statistic was found we create a 404 (not found)
                 throw new StatisticException("No statistics found for the given date", 404);
             }
         }

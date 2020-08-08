@@ -46,6 +46,10 @@ namespace Statistics.BLL
 
         private async Task<int> GetChangeInExperiencesFromDate(DateTime date)
         {
+            // We first fetch the statistic for the given day and the day before.
+            // Then we calculate the difference by subtracting the statistics from each other.
+            // If no statistic is found on the given date an exception is thrown which
+            // is handled by the ExceptionHandlerFilter
             var statisticForDate = await _statisticDataManager.GetStatisticByDate(date);
             var statisticForDayBefore = await _statisticDataManager.GetStatisticByDate(date.AddDays(-1));
 

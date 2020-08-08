@@ -15,7 +15,8 @@ namespace Statistics
             using (var scope = host.Services.CreateScope())
             {
                 var statisticContext = scope.ServiceProvider.GetRequiredService<StatisticContext>();
-                await statisticContext.Database.MigrateAsync();
+                // ensures that database and migrations are created and made
+                await statisticContext.Database.MigrateAsync(); 
             }
 
             await host.RunAsync();

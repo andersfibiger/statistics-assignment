@@ -8,6 +8,8 @@ namespace Statistics
     {
         public override void OnException(ExceptionContext context)
         {
+            // all expcetions will be caught in this filter, which means all error handling will happen here.
+            // In this case the StatisticExpcetion is caught and used for statuscode and result
             var exception = context.Exception;
 
             switch (exception)
