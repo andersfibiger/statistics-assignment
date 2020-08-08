@@ -18,24 +18,15 @@ namespace Statistics.Hangfire
     public class StatisticJob : IStatisticJob
     {
         private readonly IStatisticLogic _statisticLogic;
-        private readonly StatisticContext _statisticContext;
 
-        public StatisticJob(IStatisticLogic statisticLogic, StatisticContext statisticContext)
+        public StatisticJob(IStatisticLogic statisticLogic)
         {
             _statisticLogic = statisticLogic;
-            _statisticContext = statisticContext;
         }
 
-        public async Task Run()
+        public Task Run()
         {
-            var numberOfLiveExperience = await _statisticLogic.GetNumberOfLiveExperience();
-            _statisticContext.DailyStatistics.Add(new DailyStatistic
-            {
-                NumberOfExperiences = numberOfLiveExperience,
-                TimeStamp = DateTime.Now 
-            });
-
-            await _statisticContext.SaveChangesAsync();
+            return _statisticLogic.CreateStatistic();
         }
     }
 }

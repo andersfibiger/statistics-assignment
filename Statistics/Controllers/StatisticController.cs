@@ -3,13 +3,14 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Statistics.BLL;
+using Statistics.Common;
 using Statistics.Models;
 
 namespace Statistics.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class StatisticController
+    public class StatisticController : Controller
     {
         private readonly IStatisticLogic _statisticLogic;
 
@@ -19,18 +20,20 @@ namespace Statistics.Controllers
         }
 
         [HttpGet]
-        public async Task<Statistic> GetStatistics([Required] DateTime date)
+        public async Task<ActionResult<Statistic>> GetStatistics([Required] DateTime date)
         {
-            var numberOfLiveExperiences = await _statisticLogic.GetNumberOfLiveExperience();
-            var change = await _statisticLogic.GetChangeInExperiences(date);
+            ValidateDate(date);
+            var statistic = await _statisticLogic.GetStatistic(date);
 
-            var statistic = new Statistic
+            return Ok(statistic);
+        }
+
+        private void ValidateDate(DateTime date)
+        {
+            if (date.Date >= DateTime.Today.Date)
             {
-                NumberOfLiveExperiences = numberOfLiveExperiences,
-                ChangeInLiveExperiences = change
-            };
-
-            return statistic;
+                throw new StatisticException("Invalid date given", 400);
+            }
         }
     }
 }

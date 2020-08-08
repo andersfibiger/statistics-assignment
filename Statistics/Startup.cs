@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Statistics.BLL;
+using Statistics.DAL;
 using Statistics.Database;
 using Statistics.Hangfire;
 using Statistics.Services;
@@ -33,6 +34,7 @@ namespace Statistics
             });
 
             services.AddControllers();
+            services.AddMvc(options => options.Filters.Add<ExceptionHandlerFilter>());
 
             var connectionString = Configuration.GetConnectionString("Statistic");
             services.AddDbContext<StatisticContext>(x => x.UseSqlServer(connectionString));
@@ -44,6 +46,7 @@ namespace Statistics
             // IoC
             services.AddHttpClient<IProductService, ProductService>();
             services.AddTransient<IStatisticLogic, StatisticLogic>();
+            services.AddTransient<IStatisticDataManager, StatisticDataManager>();
             services.AddTransient<IStatisticJob, StatisticJob>();
         }
 

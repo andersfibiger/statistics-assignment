@@ -6,7 +6,7 @@ namespace Statistics.Hangfire
     {
         public static void ScheduleRecurringJob()
         {
-            RecurringJob.AddOrUpdate<StatisticJob>(job => job.Run(), Cron.Minutely); // TODO fires at midnight utc
+            RecurringJob.AddOrUpdate<StatisticJob>(job => job.Run(), Cron.Daily); // fires at midnight utc
         }
     }
 }

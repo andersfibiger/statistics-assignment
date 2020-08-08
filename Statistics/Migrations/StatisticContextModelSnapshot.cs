@@ -35,6 +35,32 @@ namespace Statistics.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DailyStatistics");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1L,
+                            NumberOfExperiences = 380,
+                            TimeStamp = new DateTime(2020, 8, 4, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2L,
+                            NumberOfExperiences = 395,
+                            TimeStamp = new DateTime(2020, 8, 5, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 3L,
+                            NumberOfExperiences = 407,
+                            TimeStamp = new DateTime(2020, 8, 6, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 4L,
+                            NumberOfExperiences = 415,
+                            TimeStamp = new DateTime(2020, 8, 7, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        });
                 });
 #pragma warning restore 612, 618
         }

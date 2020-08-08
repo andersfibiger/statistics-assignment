@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Statistics.DAL;
 using Statistics.Database;
 using Statistics.Models;
 using Statistics.Services;
@@ -10,37 +11,55 @@ namespace Statistics.BLL
 {
     public interface IStatisticLogic
     {
-        Task<int> GetNumberOfLiveExperience();
-        Task<int> GetChangeInExperiences(DateTime date);
+        Task<Statistic> GetStatistic(DateTime date);
+        Task CreateStatistic();
     }
 
     public class StatisticLogic : IStatisticLogic
     {
         private readonly IProductService _productService;
-        private readonly StatisticContext _statisticContext;
+        private readonly IStatisticDataManager _statisticDataManager;
 
-        public StatisticLogic(IProductService productService, StatisticContext statisticContext)
+        public StatisticLogic(IProductService productService, IStatisticDataManager statisticDataManager)
         {
             _productService = productService;
-            _statisticContext = statisticContext;
+            _statisticDataManager = statisticDataManager;
         }
 
-        public async Task<int> GetChangeInExperiences(DateTime date)
+        public async Task<Statistic> GetStatistic(DateTime date)
         {
-            var statistic = await _statisticContext.DailyStatistics
-                .SingleOrDefaultAsync(stat => stat.TimeStamp.Date.Equals(date.Date));
+            var statistic = new Statistic
+            {
+                NumberOfLiveExperiences = await GetNumberOfLiveExperience(),
+                ChangeInLiveExperiences = await GetChangeInExperiencesFromDate(date)
+            };
 
-            var stat2 = await _statisticContext.DailyStatistics
-                .SingleOrDefaultAsync(stat => stat.TimeStamp.Date.Equals(date.Date));
-
-            return statistic.NumberOfExperiences - stat2.NumberOfExperiences;
+            return statistic;
         }
 
-        public async Task<int> GetNumberOfLiveExperience()
+        private async Task<int> GetNumberOfLiveExperience()
         {
             var experiences = await _productService.GetLiveExperiences();
 
             return experiences.Count();
+        }
+
+        private async Task<int> GetChangeInExperiencesFromDate(DateTime date)
+        {
+            var statisticForDate = await _statisticDataManager.GetStatisticByDate(date);
+            var statisticForDayBefore = await _statisticDataManager.GetStatisticByDate(date.AddDays(-1));
+
+            return statisticForDate.NumberOfExperiences - statisticForDayBefore.NumberOfExperiences;
+        }
+
+        public async Task CreateStatistic()
+        {
+            var dailyStatistic = new DailyStatistic
+            {
+                NumberOfExperiences = await GetNumberOfLiveExperience(),
+                TimeStamp = DateTime.UtcNow
+            };
+            await _statisticDataManager.Create(dailyStatistic);
         }
     }
 }
