@@ -35,6 +35,7 @@ namespace Statistics.DAL
         {
             try
             {
+                // there should only be one or less since statistics are only saved once per day at midnight
                 return await _context.DailyStatistics
                     .SingleAsync(stat => stat.TimeStamp.Date.Equals(date.Date));
             }

@@ -32,7 +32,7 @@ namespace Statistics.Controllers
         {
             if (date.Date >= DateTime.Today.Date)
             {
-                throw new StatisticException("Invalid date given", 400);
+                throw new StatisticException($"Given date has not passed yet: {date}", 400);
             }
         }
     }
