@@ -57,7 +57,7 @@ namespace Statistics.BLL
             var dailyStatistic = new DailyStatistic
             {
                 NumberOfExperiences = await GetNumberOfLiveExperience(),
-                TimeStamp = DateTime.UtcNow
+                TimeStamp = DateTime.UtcNow.AddDays(-1) // subtract one day since we are calculating the day before midnight
             };
             await _statisticDataManager.Create(dailyStatistic);
         }

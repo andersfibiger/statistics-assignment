@@ -36,7 +36,7 @@ namespace Statistics.DAL
             try
             {
                 return await _context.DailyStatistics
-                    .FirstAsync(stat => stat.TimeStamp.Date.Equals(date.Date));
+                    .SingleAsync(stat => stat.TimeStamp.Date.Equals(date.Date));
             }
             catch (Exception)
             {
