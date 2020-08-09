@@ -20,8 +20,10 @@ namespace Statistics.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Statistic>> GetStatistics([Required] DateTime date)
+        public async Task<ActionResult<Statistic>> GetStatistic([Required] DateTime date)
         {
+            // Date is being validated by [required] annotation for being a valid date format
+            // and by the following function to be a date that has ended.
             ValidateDate(date);
             var statistic = await _statisticLogic.GetStatistic(date);
 

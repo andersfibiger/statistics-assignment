@@ -28,6 +28,8 @@ namespace Statistics.BLL
 
         public async Task<Statistic> GetStatistic(DateTime date)
         {
+            // all logic for getting statistic will happen here. This means getting currently live experiences
+            // and the change given the date. This will be returned as a statistic
             var statistic = new Statistic
             {
                 NumberOfLiveExperiences = await GetNumberOfLiveExperience(),

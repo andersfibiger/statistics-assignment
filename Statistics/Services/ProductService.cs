@@ -12,6 +12,7 @@ namespace Statistics.Services
         Task<IEnumerable<Experience>> GetLiveExperiences();
     }
 
+    // responsible for fetching products from the API
     public class ProductService : IProductService
     {
         private readonly HttpClient _client;

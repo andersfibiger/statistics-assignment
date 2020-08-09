@@ -16,6 +16,7 @@ namespace Statistics.DAL
         Task Create(DailyStatistic dailyStatistic);
     }
 
+    // Responsible for all request for the database for DailyStatistic
     public class StatisticDataManager : IStatisticDataManager
     {
         private readonly StatisticContext _context;
