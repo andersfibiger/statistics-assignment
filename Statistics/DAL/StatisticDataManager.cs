@@ -45,7 +45,7 @@ namespace Statistics.DAL
                 // since no statistic was found we create a 404 (not found)
                 // Error message could be more clear that it could be the given date but 
                 // also the day before since both are being checked
-                throw new StatisticException("No statistics found for the given date", 404);
+                throw new StatisticException("Some statistics not found for the given date", 404);
             }
         }
     }

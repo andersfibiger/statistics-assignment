@@ -33,7 +33,7 @@ namespace Statistics.BLL
             var statistic = new Statistic
             {
                 NumberOfLiveExperiences = await GetNumberOfLiveExperience(),
-                ChangeInLiveExperiences = await GetChangeInExperiencesFromDate(date)
+                DailyChangeInLiveExperiencesFromDate = await GetChangeInExperiencesFromDate(date)
             };
 
             return statistic;
